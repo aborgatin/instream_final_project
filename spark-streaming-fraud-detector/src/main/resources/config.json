@@ -1,0 +1,53 @@
+{
+  "latency.seconds": "60",
+  "bot.requests": "20",
+  "bot.window.duration": "10 seconds",
+  "bot.slide.duration": "1 second",
+  "bot.whitelist.latency.minutes": "10",
+  "events.watermark.minutes": "10",
+  "spark": {
+    "log.level": "WARN",
+    "app.name": "Fraud detector",
+    "app.type": "ds",
+    "checkpoint.dir": "/work/spark/checkpoint",
+    "config": {
+      "spark.master": "local[*]",
+      "spark.driver.memory": "2g"
+    }
+  },
+  "stream.source": {
+    "type": "kafka",
+    "format": "kafka",
+    "config": {
+      "kafka.bootstrap.servers": "localhost:9092",
+      "subscribe": "final",
+      "startingOffsets": "latest"
+    }
+  },
+  "storage.connector": {
+    "type": "CASSANDRA",
+    "format": "org.apache.spark.sql.cassandra",
+    "config": {
+      "keyspace": "clicks",
+      "table": "user_clicks"
+    },
+    "spark.conf": {
+      "spark.cassandra.connection.host": "localhost",
+      "spark.cassandra.auth.username": "",
+      "spark.cassandra.auth.password": ""
+
+    }
+  },
+  "cache.connector": {
+    "type": "IGNITE",
+    "format": "ignite",
+    "config": {
+      "config": "/work/instreamfinalproject/spark-streaming-fraud-detector/src/main/resources/config/example-default.xml",
+      "table": "bots"
+    }
+  },
+  "console.writer": {
+    "print.events": true,
+    "print.events.count": "40"
+  }
+}

@@ -10,7 +10,7 @@
     <modules>
         <module>kafka-connect-directories</module>
         <module>events-generator</module>
-        <module>bot-detection</module>
+        <module>ignite-node</module>
     </modules>
     <packaging>pom</packaging>
 

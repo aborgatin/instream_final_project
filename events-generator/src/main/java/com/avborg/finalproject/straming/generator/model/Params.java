@@ -4,6 +4,7 @@ public class Params {
     private long count;
     private boolean isBot;
     private long delay;
+    private long iter;
     private String path;
 
     public long getCount() {
@@ -24,6 +25,14 @@ public class Params {
 
     public long getDelay() {
         return delay;
+    }
+
+    public long getIter() {
+        return iter;
+    }
+
+    public void setIter(long iter) {
+        this.iter = iter;
     }
 
     public void setDelay(long delay) {

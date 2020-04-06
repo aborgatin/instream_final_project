@@ -8,6 +8,7 @@ public final class OptionUtil {
     private static final String COUNT_OPTION = "count";
     private static final String BOT_OPTION = "bot";
     private static final String DELAY_OPTION = "delay";
+    private static final String ITER_OPTION = "iter";
     private static final String PATH_OPTION = "path";
 
 
@@ -19,6 +20,8 @@ public final class OptionUtil {
         options.addOption(optionIsBot);
         Option delayOption = new Option("d", DELAY_OPTION, true, "delay after each event");
         options.addOption(delayOption);
+        Option iterOption = new Option("i", ITER_OPTION, true, "count of iterations");
+        options.addOption(iterOption);
         Option pathOption = new Option("p", PATH_OPTION, true, "path to the output file");
         options.addOption(pathOption);
         CommandLineParser parser = new DefaultParser();
@@ -39,6 +42,7 @@ public final class OptionUtil {
         params.setBot(cmd.hasOption(BOT_OPTION));
         params.setPath(cmd.getOptionValue(PATH_OPTION, null));
         params.setDelay(parseLongWithDefault(cmd, DELAY_OPTION, 0L));
+        params.setIter(parseLongWithDefault(cmd, ITER_OPTION, 1L));
         return params;
     }
 

@@ -21,14 +21,8 @@ public class Main {
         ObjectMapper mapper = new ObjectMapper();
         EventGenerator<Event> eventGenerator = new EventGeneratorImpl(params.isBot());
         File file = getFile(params.getPath());
-        if (params.getDelay() != 0) {
-            for (int i = 0; i < params.getCount(); i++) {
-                Event event = eventGenerator.generateOne();
-                writeToFile(file, mapper.writeValueAsString(event) + "\n");
-                System.out.println("One event was added to the file " + file.getAbsolutePath());
-                Thread.sleep(params.getDelay());
-            }
-        } else {
+        for (int iter = 0; iter < params.getIter(); iter++) {
+            Thread.sleep(params.getDelay());
             StringBuilder sb = new StringBuilder();
             eventGenerator.generateList(params.getCount())
                     .forEach(event -> {

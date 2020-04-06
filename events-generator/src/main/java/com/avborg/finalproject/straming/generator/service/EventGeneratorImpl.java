@@ -2,6 +2,7 @@ package com.avborg.finalproject.straming.generator.service;
 
 import com.avborg.finalproject.straming.generator.model.Event;
 import com.google.common.net.InetAddresses;
+import org.apache.commons.lang3.RandomStringUtils;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,17 +19,22 @@ public class EventGeneratorImpl implements EventGenerator<Event> {
         this.isBot = isBot;
         if (isBot) {
             ip = generateRandomIp();
-            time = new Date().getTime();
+            time = currentTimeInSeconds();
+        }
+    }
+    private Event generateOne(Long time) {
+        if (isBot) {
+            return new Event("click", ip, time, genRandomUrl());
+        } else {
+            return new Event("click", generateRandomIp(), currentTimeInSeconds(), genRandomUrl());
         }
     }
 
-
+    public String genRandomUrl() {
+        return "https://clck.ru/" + RandomStringUtils.random(6, true, true);
+    }
     public Event generateOne() {
-        if (isBot) {
-            return new Event("click", ip, time, "url");
-        } else {
-            return new Event("click", generateRandomIp(), new Date().getTime(), "url");
-        }
+        return generateOne(time);
     }
 
     @Override
@@ -36,7 +42,7 @@ public class EventGeneratorImpl implements EventGenerator<Event> {
         List<Event> result = new ArrayList<>();
 
         for (int i = 0; i < count; i++)
-            result.add(generateOne());
+            result.add(generateOne(currentTimeInSeconds()));
 
         return result;
     }
@@ -44,5 +50,9 @@ public class EventGeneratorImpl implements EventGenerator<Event> {
     private String generateRandomIp() {
         Random r = new Random();
         return InetAddresses.fromInteger(r.nextInt()).getHostAddress();
+    }
+
+    private Long currentTimeInSeconds() {
+        return System.currentTimeMillis()/1000;
     }
 }
